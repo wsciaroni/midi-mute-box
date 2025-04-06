@@ -15,8 +15,8 @@
 #define NUM_CHANNELS 1
 
 // Define pin assignments.
-const etl::array<int, NUM_CHANNELS> buttonPins = {5};
-const etl::array<int, NUM_CHANNELS> ledPins = {4};
+const etl::array<int, NUM_CHANNELS> buttonPins = {D5};
+const etl::array<int, NUM_CHANNELS> ledPins = {D6};
 const etl::array<X32MuteControlChannel, NUM_CHANNELS> channelNumbers = {X32MuteControlChannel::CH1_MUTE};
 
 // Debounce time in milliseconds
@@ -115,7 +115,14 @@ public:
 
     void update()
     {
+      if(hasBeenTenSeconds())
+      {
+        syncWithMixer();
+      }
+      else
+      {
         handleButtonPresses();
+      }
     }
 
     // Placeholder for MIDI message handling (add your MIDI logic here)
@@ -129,6 +136,11 @@ public:
     }
 
 private:
+    bool hasBeenTenSeconds() const
+    {
+      return (millis() % 10000) == 0;
+    }
+
     void handleButtonPresses()
     {
         for (auto &channel : _channels)

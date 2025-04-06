@@ -265,7 +265,7 @@ enum class X32PanChannel : byte {
 
 namespace x32_midi_private
 {
-    enum class MidiChannel : byte {
+    enum class MidiChannel : int8_t {
         MIDI_CHANNEL_1 = 0,
         MIDI_CHANNEL_2 = 1,
         MIDI_CHANNEL_3 = 2,
@@ -278,7 +278,7 @@ namespace x32_midi_private
 
     void sendMidiCommand(MidiChannel midiChannel, byte channel, byte value)
     {
-        X32_MIDI_SERIAL.write(MIDI_CONTROL_CHANGE | (channel & etl::lsb_mask<int8_t, 4>::value));
+        X32_MIDI_SERIAL.write(MIDI_CONTROL_CHANGE | (static_cast<byte>(midiChannel) & etl::lsb_mask<byte, 4>::value));
         X32_MIDI_SERIAL.write(channel);
         X32_MIDI_SERIAL.write(value); // Ensure value is 7-bit
     }
