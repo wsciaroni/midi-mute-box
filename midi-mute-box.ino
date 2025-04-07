@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 #include <Embedded_Template_Library.h> // Requires Embedded Template Library (20.40.0 used)
 #include <etl/debounce.h>
 #include <etl/vector.h>
@@ -8,16 +10,27 @@
 
 // Define MIDI channel for X32 communication
 #define X32_MIDI_SERIAL Serial1 // Use Serials for MIDI communication
+#define X32_MIDI_TX_PIN 13
+#define X32_MIDI_RX_PIN 15 // Unused, but must be specified
 
 #include "X32_MIDI.h"
 
 // Define the number of channels to control
-#define NUM_CHANNELS 1
+#define NUM_CHANNELS 8
 
 // Define pin assignments.
-const etl::array<int, NUM_CHANNELS> buttonPins = {D5};
-const etl::array<int, NUM_CHANNELS> ledPins = {D6};
-const etl::array<X32MuteControlChannel, NUM_CHANNELS> channelNumbers = {X32MuteControlChannel::CH1_MUTE};
+const etl::array<int, NUM_CHANNELS> buttonPins = {34, 35, 32, 33, 25, 26, 27, 14};
+const etl::array<int, NUM_CHANNELS> ledPins =    {23, 22, 21, 19, 18, 17, 16,  4};
+const etl::array<X32MuteControlChannel, NUM_CHANNELS> channelNumbers = {
+  X32MuteControlChannel::CH1_MUTE,
+  X32MuteControlChannel::CH2_MUTE,
+  X32MuteControlChannel::CH3_MUTE,
+  X32MuteControlChannel::CH4_MUTE,
+  X32MuteControlChannel::CH5_MUTE,
+  X32MuteControlChannel::CH6_MUTE,
+  X32MuteControlChannel::CH7_MUTE,
+  X32MuteControlChannel::CH8_MUTE
+  };
 
 // Debounce time in milliseconds
 const unsigned long DEBOUNCE_SAMPLE_VALID_COUNT = 50;

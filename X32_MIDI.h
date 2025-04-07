@@ -286,7 +286,7 @@ namespace x32_midi_private
 
 inline void startMidi(uint32_t baudRate = 31250)
 {
-    X32_MIDI_SERIAL.begin(baudRate);
+    X32_MIDI_SERIAL.begin(baudRate, SERIAL_8N1, X32_MIDI_RX_PIN, X32_MIDI_TX_PIN);
     X32_MIDI_SERIAL.setTimeout(1000); // Set a timeout for MIDI communication
     delay(1000); // Allow time for the MIDI connection to establish
 }
